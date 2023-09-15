@@ -57,4 +57,4 @@ for folder in os.listdir("./"):
 sorted_performance = {k: v for k, v in sorted(performance.items(), key=lambda item: item[1]['score'] / item[1]['matches'], reverse=True)}
 
 for key in sorted_performance:
-  print(key, sorted_performance[key])
+  print(key, sorted_performance[key], 'Priemerné score:', round(sorted_performance[key]['score'] / sorted_performance[key]['matches'], 2))
