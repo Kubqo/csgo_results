@@ -6,9 +6,6 @@ dates = ['23.8.2023', '6.9.2023']
 
 team1 = 'page-1_table-1.csv'
 team2 = 'page-1_table-2.csv'
-
-folders = [i+ '_' + j for i in maps for j in dates]
-
 performance = {}
 
 
@@ -29,30 +26,33 @@ def addToPerformanceDict(performance, file_url):
                               'matches': performance[row[0]]['matches'] + 1}
 
 for folder in os.listdir("./"):
-    pngs = glob.glob("./" + folder +"/*.png")
+  if folder in maps:
+    for day in os.listdir("./" + folder):
+      path = "./" + folder + '/' + day + '/' 
+      pngs = glob.glob(path +"/*.png")
 
-    if len(pngs) == 0 and folder in folders:
-        for matchFolder in os.listdir("./" + folder):
-            setupPerformanceDict(performance, "./" + folder+'/'+  matchFolder + '/'+ team1)
-            setupPerformanceDict(performance, "./" + folder+'/'+  matchFolder + '/'+ team2)
-    else:
-      if folder in folders:
-          setupPerformanceDict(performance, "./" + folder+'/'+ team1)
-          setupPerformanceDict(performance, "./" + folder+'/'+ team2)
+      if len(pngs) == 0:
+        for matchFolder in os.listdir(path):
+          setupPerformanceDict(performance, path +  matchFolder + '/'+ team1)
+          setupPerformanceDict(performance, path +  matchFolder + '/'+ team2)
+      else:
+          setupPerformanceDict(performance, path + team1)
+          setupPerformanceDict(performance, path + team2)
 
-          
 for folder in os.listdir("./"):
-    pngs = glob.glob("./" + folder +"/*.png")
+  if folder in maps:
+    for day in os.listdir("./" + folder):
+      path = "./" + folder + '/' + day + '/' 
+      pngs = glob.glob(path +"/*.png")
 
-    if len(pngs) == 0 and folder in folders:
-        for matchFolder in os.listdir("./" + folder):
-            addToPerformanceDict(performance,"./" + folder+'/'+  matchFolder + '/'+ team1)
-            addToPerformanceDict(performance, "./" + folder+'/'+  matchFolder + '/'+ team2)
+      if len(pngs) == 0:
+        for matchFolder in os.listdir(path):
+          addToPerformanceDict(performance, path + matchFolder + '/'+ team1)
+          addToPerformanceDict(performance, path +  matchFolder + '/'+ team2)
+      else:
+        addToPerformanceDict(performance, path + team1)    
+        addToPerformanceDict(performance, path + team2)
 
-    else:
-      if folder in folders:
-          addToPerformanceDict(performance, "./" + folder+'/'+ team1)    
-          addToPerformanceDict(performance, "./" + folder+'/'+ team2)
 
 sorted_performance = {k: v for k, v in sorted(performance.items(), key=lambda item: item[1]['score'] / item[1]['matches'], reverse=True)}
 
