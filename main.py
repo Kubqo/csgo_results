@@ -48,7 +48,7 @@ for folder in os.listdir("./"):
       if len(pngs) == 0:
         for matchFolder in os.listdir(path):
           addToPerformanceDict(performance, path + matchFolder + '/'+ team1)
-          addToPerformanceDict(performance, path +  matchFolder + '/'+ team2)
+          addToPerformanceDict(performance, path + matchFolder + '/'+ team2)
       else:
         addToPerformanceDict(performance, path + team1)    
         addToPerformanceDict(performance, path + team2)
